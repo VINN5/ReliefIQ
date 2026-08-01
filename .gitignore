@@ -1,0 +1,25 @@
+# --- Secrets — never commit these ---
+.env
+.env.*
+!.env.example
+
+# --- Python / backend ---
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+*.egg-info/
+
+# --- Uploaded documents (user content, not source code) ---
+backend/storage/documents/
+
+# --- Node / frontend ---
+node_modules/
+dist/
+.vite/
+
+# --- Editor / OS ---
+.vscode/
+.DS_Store
+Thumbs.db
