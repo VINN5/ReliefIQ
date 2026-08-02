@@ -188,4 +188,4 @@ Being upfront about what's intentionally out of scope for the current version:
 
 ## License
 
-*(Add a license — MIT is a common choice for portfolio projects. Add a `LICENSE` file to the repo root if you choose one.)*
+
