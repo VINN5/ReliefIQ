@@ -19,6 +19,7 @@ from app.api.v1 import gap_detection
 from app.api.v1 import conversations
 from app.api.v1 import admin_audit_log
 from app.api.v1 import conflict_detection
+from app.api.v1 import spreadsheets
 
 logger = logging.getLogger(__name__)
 
@@ -55,6 +56,7 @@ app.include_router(gap_detection.router)
 app.include_router(conversations.router)
 app.include_router(admin_audit_log.router)
 app.include_router(conflict_detection.router)
+app.include_router(spreadsheets.router)
 
 @app.exception_handler(Exception)
 async def unhandled_exception_handler(request: Request, exc: Exception):

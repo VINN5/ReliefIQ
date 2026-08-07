@@ -11,7 +11,7 @@ from fastapi import HTTPException, UploadFile
 
 from app.config import settings
 
-ALLOWED_EXTENSIONS = {".pdf", ".docx"}
+ALLOWED_EXTENSIONS = {".pdf", ".docx", ".xlsx", ".csv"}
 
 
 def validate_file(file: UploadFile) -> str:
