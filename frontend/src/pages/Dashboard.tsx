@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { MapPinned, LogOut, FileStack, MessageSquare, FileSearch, ShieldAlert, AlertTriangle } from "lucide-react";
+import { MapPinned, LogOut, FileStack, MessageSquare, FileSearch, ShieldAlert, AlertTriangle, Table2 } from "lucide-react";
 import { tokens, fonts, fontImport } from "../lib/theme";
 import { getCurrentUser, clearToken, type UserRole } from "../lib/api";
 import ChatPanel from "../components/ChatPanel";
 import DocumentsPanel from "../components/DocumentsPanel";
 import GapDetectionPanel from "../components/GapDetectionPanel";
 import ConflictDetectionPanel from "../components/ConflictDetectionPanel";
+import SpreadsheetAnalysisPanel from "../components/SpreadsheetAnalysisPanel";
 import AuditLogPanel from "../components/AuditLogPanel";
 
 type Me = { id: string; full_name: string; organisation: string; email: string; role: UserRole };
-type Tab = "chat" | "documents" | "gaps" | "conflicts" | "audit";
+type Tab = "chat" | "documents" | "gaps" | "conflicts" | "spreadsheets" | "audit";
 
 // Roles allowed to see/manage the document library — kept in one place
 // so the frontend gate stays in sync with the backend's
@@ -47,7 +48,7 @@ export default function Dashboard() {
   useEffect(() => {
     if (tab === "audit" && me && !isAdmin) {
       setTab("chat");
-    } else if ((tab === "documents" || tab === "gaps" || tab === "conflicts") && me && !canManageDocuments) {
+    } else if ((tab === "documents" || tab === "gaps" || tab === "conflicts" || tab === "spreadsheets") && me && !canManageDocuments) {
       setTab("chat");
     }
   }, [tab, me, canManageDocuments, isAdmin]);
@@ -145,6 +146,20 @@ export default function Dashboard() {
               <AlertTriangle size={16} /> Conflict Detection
             </button>
           )}
+          {canManageDocuments && (
+            <button
+              type="button"
+              onClick={() => setTab("spreadsheets")}
+              className="cursor-pointer inline-flex items-center gap-2 px-4 py-3 text-sm"
+              style={{
+                color: tab === "spreadsheets" ? tokens.mossDeep : tokens.muted,
+                borderBottom: tab === "spreadsheets" ? `2px solid ${tokens.moss}` : "2px solid transparent",
+                marginBottom: "-1px",
+              }}
+            >
+              <Table2 size={16} /> Spreadsheets
+            </button>
+          )}
           {isAdmin && (
             <button
               type="button"
@@ -165,6 +180,7 @@ export default function Dashboard() {
         {tab === "documents" && <DocumentsPanel canUpload={canManageDocuments} />}
         {tab === "gaps" && <GapDetectionPanel />}
         {tab === "conflicts" && <ConflictDetectionPanel />}
+        {tab === "spreadsheets" && <SpreadsheetAnalysisPanel />}
         {tab === "audit" && <AuditLogPanel />}
       </main>
     </div>

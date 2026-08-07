@@ -184,7 +184,7 @@ export default function DocumentsPanel({ canUpload }: DocumentsPanelProps) {
           <input
             ref={fileInputRef}
             type="file"
-            accept=".pdf,.docx,.doc,.txt"
+            accept=".pdf,.docx,.xlsx,.csv"
             onChange={handleFileChange}
             className="hidden"
             id="document-upload-input"
@@ -203,7 +203,7 @@ export default function DocumentsPanel({ canUpload }: DocumentsPanelProps) {
           <input
             ref={replaceInputRef}
             type="file"
-            accept=".pdf,.docx,.doc,.txt"
+            accept=".pdf,.docx,.xlsx,.csv"
             onChange={handleReplaceFileChange}
             className="hidden"
           />

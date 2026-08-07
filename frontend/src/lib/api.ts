@@ -386,3 +386,51 @@ export async function analyzeConflicts(documentId: string): Promise<ConflictAnal
   if (!res.ok) throw new ApiError(await parseErrorDetail(res), res.status);
   return res.json();
 }
+
+// --- Spreadsheet analysis ---
+
+export type SpreadsheetTable = {
+  id: string;
+  sheet_name: string;
+  headers: string[];
+  rows: (string | number | null)[][];
+  row_count: number;
+};
+
+export type SheetComparison = {
+  sheet_name: string;
+  columns_added: string[];
+  columns_removed: string[];
+  rows_added: (string | number | null)[][];
+  rows_removed: (string | number | null)[][];
+  old_row_count: number;
+  new_row_count: number;
+  headers: string[];
+  truncated: boolean;
+};
+
+export type SpreadsheetComparisonResponse = {
+  old_document_title: string;
+  new_document_title: string;
+  sheets_added: string[];
+  sheets_removed: string[];
+  sheet_comparisons: SheetComparison[];
+  summary: string;
+};
+
+export async function getSpreadsheetTables(documentId: string): Promise<SpreadsheetTable[]> {
+  const res = await fetch(`${API_BASE_URL}/spreadsheets/${documentId}/tables`, {
+    headers: authHeaders(),
+  });
+  if (!res.ok) throw new ApiError(await parseErrorDetail(res), res.status);
+  return res.json();
+}
+
+export async function compareSpreadsheets(documentId: string): Promise<SpreadsheetComparisonResponse> {
+  const res = await fetch(`${API_BASE_URL}/spreadsheets/${documentId}/compare`, {
+    method: "POST",
+    headers: authHeaders(),
+  });
+  if (!res.ok) throw new ApiError(await parseErrorDetail(res), res.status);
+  return res.json();
+}
