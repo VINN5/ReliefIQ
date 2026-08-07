@@ -14,7 +14,6 @@ from app.api.v1.documents import router as documents_router
 from app.api.v1.query import router as query_router
 from app.config import settings
 from app.database import get_db
-from app.services.embedding_service import warm_up as warm_up_embedding_model
 from app.api.v1 import gap_detection
 from app.api.v1 import conversations
 from app.api.v1 import admin_audit_log
@@ -26,11 +25,10 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Load the embedding model now, at startup, instead of on whichever
-    # request happens to be first. Without this, the first upload or
-    # query after every server restart eats a multi-second model-load
-    # penalty that looks like random slowness rather than a one-time cost.
-    warm_up_embedding_model()
+    # The embedding model is no longer warmed up here. It now loads lazily,
+    # on the first call to embed(), inside embedding_service.py. This trades
+    # a slower first request after each restart for a smaller startup memory
+    # footprint — needed to fit inside Render's free-tier RAM limit.
     yield
 
 
@@ -40,7 +38,8 @@ app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # Allows the Vite dev server (localhost:5173) to call this API from the browser.
-# Add your real deployed frontend origin here too once you have one.
+# Add your real deployed frontend origin here too once you have one, e.g.:
+# allow_origins=["http://localhost:5173", "https://your-frontend.vercel.app"],
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173"],
