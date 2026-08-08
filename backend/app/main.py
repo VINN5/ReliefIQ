@@ -38,10 +38,16 @@ app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # Allows the Vite dev server (localhost:5173) and the deployed Vercel
-# frontend to call this API from the browser.
+# frontend to call this API from the browser. Vercel's assigned domain
+# has changed once already during setup — both variants are listed here
+# in case it changes again; confirm the real one in Vercel → Settings → Domains.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "https://relief-iq.vercel.app"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://reliefiq.vercel.app",
+        "https://relief-iq.vercel.app",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
