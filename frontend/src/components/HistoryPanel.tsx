@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { History, Loader2, AlertTriangle } from "lucide-react";
+import { Loader2, AlertTriangle } from "lucide-react";
 import { tokens, fonts } from "../lib/theme";
 import { getQueryHistory, ApiError, type QueryHistoryItem } from "../lib/api";
 
