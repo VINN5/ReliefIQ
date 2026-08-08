@@ -1,5 +1,5 @@
 import { useRef, useState, type FormEvent } from "react";
-import { FileSearch, Upload, Loader2, CheckCircle2, AlertTriangle, XCircle } from "lucide-react";
+import { FileSearch, Loader2, CheckCircle2, AlertTriangle, XCircle } from "lucide-react";
 import { tokens, fonts } from "../lib/theme";
 import { analyzeGapDetection, ApiError, type GapAnalysisResponse, type CoverageStatus } from "../lib/api";
 
