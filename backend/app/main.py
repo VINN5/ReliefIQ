@@ -37,12 +37,11 @@ app = FastAPI(title="ReliefIQ API", version="0.1.0", lifespan=lifespan)
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-# Allows the Vite dev server (localhost:5173) to call this API from the browser.
-# Add your real deployed frontend origin here too once you have one, e.g.:
-# allow_origins=["http://localhost:5173", "https://your-frontend.vercel.app"],
+# Allows the Vite dev server (localhost:5173) and the deployed Vercel
+# frontend to call this API from the browser.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["http://localhost:5173", "https://relief-iq.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
